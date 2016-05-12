@@ -12,55 +12,70 @@ db = SQLAlchemy()
 ##############################################################################
 # Model definitions
 
-class User(db.User):
+class User(db.Model):
     """User information."""
 
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.String(64), nullable=True)
-    age = db.Column(db.Integer, nullable=True)
+    first_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(64), nullable=False)
+    password = db.Column(db.String(64), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+
+
+    # draft_count = db.Column(db.Integer, nullable = True)
+    # publish_count = db.Column(db.Integer, nullable = True)
+
+    def __repr__(self):
+
+        return "<User user_id=%s email=%s>" % (self.user_id, self.email)
+
     
-class Draft(db.Draft):
+class Book(db.Model):
     """Stores drafts being written by user."""
 
-    __tablename__ = "drafts"
+    __tablename__ = "books"
 
-    draft_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    book_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     title = db.Column(db.String(200), nullable=True)
-    start_date = db.Column(db.DateTime)
-
+    date = db.Column(db.DateTime)
 
     # Define relationship to User
+    user = db.relationship("User", backref=db.backref("books", order_by=date))
 
-    user = db.relationship("User", backref=db.backref("drafts"))
 
-class Published_Drafts(db.Published):
+    def __repr__(self):
+
+        return "<Book book_id=%s title=%s>" % (self.book_id, self.title)
+
+
+
+class Published(db.Model):
     """Stores published drafts written by user."""
 
     __tablename__ = "published"
 
     publish_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, ForeignKey('users.user_id'))
-    draft_id = db.Column(db.Integer, ForeignKey('drafts.draft_id'))
-    title = db.Column(db.String(200))
-    publish_date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    title = db.Column(db.String(200), nullable=False)
+    date = db.Column(db.DateTime)
 
-    # Define relationship to User
+    # # Define relationship to User
+    user = db.relationship("User", backref=db.backref("published"))
 
-    user = db.relationship("User", backref=db.backref('published'))
+    # Define relationship to Books 
+    book = db.relationship("Book", backref=db.backref("published", order_by=date))
 
-    # Define relationship to Drafts 
+    def __repr__(self):
 
-    draft = db.relationship("Drafts", backref=db.backref('published'))
-
-
-
-
-
-
+        return "<Published publish_id=%s title=%s user_id=% book__date=%>" % (self.publish_id, 
+                                                                            self.title, 
+                                                                            self.user_id, 
+                                                                            self.book_date)
 
 
 ##############################################################################
@@ -70,7 +85,7 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///openbook'
     db.app = app
     db.init_app(app)
 
