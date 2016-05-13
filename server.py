@@ -2,10 +2,10 @@
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, flash, redirect, session
+from flask import Flask, render_template, flash, redirect, session, request
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db
+from model import connect_to_db, db, User, Book, Published
 
 
 app = Flask(__name__)
@@ -54,7 +54,7 @@ def login():
     session["user_id"] = user.user_id
 
     flash("Welcome!")
-    return redirect("/dashboard/%s" % user.user_id)
+    return redirect("/dashboard")
 
 
 @app.route('/logout')
@@ -66,54 +66,79 @@ def logout():
     return redirect("/")
 
 
-# @app.route('/register', methods=['GET'])
-# def registration_form():
-#     """ registration form. """
+@app.route('/register', methods=['GET'])
+def registration_form():
+    """ registration form. """
 
-#     return render_template("registration.html")
+    return render_template("registration.html")
 
-# @app.route('/register', methods=['POST'])
-# def registration():
-#     """ register new user. """
+@app.route('/register', methods=['POST'])
+def registration():
+    """ register new user. """
 
-#     """ Get form variables """
-#     first_name = request.form["first_name"]
-#     last_name = request.form["last_name"]
-#     # username = request.form ["username"] --> to be added later
-#     email = request.form["email"]
-#     password = request.form["password"]
-#     age = request.form["age"]
+    """ Get form variables """
+    first_name = request.form["first_name"]
+    last_name = request.form["last_name"]
+    # username = request.form ["username"] --> to be added later
+    email = request.form["email"]
+    password = request.form["password"]
+    age = request.form["age"]
 
-#     new_user = User(first_name=first_name, last_name=last_name, email=email,
-#         password=password, age=age)
+    new_user = User(first_name=first_name, last_name=last_name, email=email,
+        password=password, age=age)
 
-#     db.session.add(new_user)
-#     db.session.commit()
+    db.session.add(new_user)
+    db.session.commit()
 
-#     flash("User %s %s added." % first_name, last_name)
-#     return redirect('/login')
+    flash("User {} {} added.".format(first_name, last_name))
+    return redirect('/login')
 
 
-# @app.route('/dashboard/<last_name, int:user_id>') #shows last_name + user_id
-# def user_dashboard():
-#     """ Interactive Dashboard. """
+@app.route('/dashboard') #shows last_name + user_id
+def user_dashboard():
+    """ Interactive Dashboard. """
 
-#     return render_template("dashboard.html")
+    return render_template("dashboard.html")
 
-#     # in dashboard.html, store buttons containing links to new pages 
-#     # then route the pages individually 
+@app.route('/profile')
+def user_profile():
+    """ User profile page. """
 
-# @app.route('/dashboard_button')
-# def dashboard_button():
-#     """ Dashboard button redirect to dashboard. """
+    return render_template("profile.html")
 
-#     return render_template("dashboard.html")
+@app.route('/inbox')
+def user_messaging():
+    """ Messaging Inbox. """
 
-# @app.route('/profile/<last_name, int:user_id>')
-# def user_profile():
-#     """ User profile page. """
+    return render_template("inbox.html")
 
-#     return render_template("profile.html")
+@app.route('/explore')
+def user_explore():
+    """ Explore the unfollowed. """
+
+    return render_template("explore.html")
+
+@app.route('/working_draft', methods=['GET'])
+def working_draft():
+    """ User writes down something new. """
+
+    return render_template("new_draft.html")
+
+@app.route('/working_draft', methods=['POST'])
+def submit_draft():
+    """ Saves user's draft to data. """
+
+    title = request.form["title"] 
+
+    new_title = Book(title=title)
+
+    # book = Book.query.filter_by(user_id=user_id).all()
+
+    db.session.add(new_title)
+    db.session.commit()
+
+    return redirect('/profile')
+
 
 # @app.route('/inbox/<last_name, int:user_id')
 # def inbox():
