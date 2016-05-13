@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>OpenBook</title>
+</head>
+<body>
+
+{% if "user_id" in session %}
+        <a href="/logout">Logout</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/inbox">Messaging</a>
+        <a href="/explore">Explore</a>
+        <a href="/working_draft">New Draft</a>
+        <a href="/profile">Profile</a>
+
+
+{% else %}
+    <a href="/login">Login</a>
+    <a href="/register">Register!</a>
+
+{% endif %}
+
+<hr>
+
+{% for flash in get_flashed_messages() %}
+
+{% endfor %}
+
+{% block content %} 
+{% endblock %}
+
+</body>
+</html> 

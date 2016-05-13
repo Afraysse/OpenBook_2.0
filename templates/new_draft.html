@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- connected via a button in the header, messaging inbox -->
+
+<body>
+    <div class="well spaced" style="Width:40%">
+        <form action="/working_draft" method="POST">
+            <div class="draft-group">
+            <div>
+                <label>
+                    Title:
+                    <input type="text" name="title" required class="draft-control">
+                </label>
+            </div>
+            <div>
+                <label>
+                    New draft:
+                    <input type="text" name="new-draft" required class="draft-control">
+                </label>
+            </div>
+            <div>
+                <input type="submit" value="save" class="btn">
+            </div>
+    </div>
+
+</form>
+</div>
+{% endblock %}
+</body>
