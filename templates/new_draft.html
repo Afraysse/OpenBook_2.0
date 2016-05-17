@@ -1,30 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- connected via a button in the header, messaging inbox -->
+<script src="https://code.jquery.com/jquery.js"></script>
 
 <body>
-    <div class="well spaced" style="Width:40%">
-        <form action="/working_draft" method="POST">
-            <div class="draft-group">
-            <div>
-                <label>
-                    Title:
-                    <input type="text" name="title" required class="draft-control">
-                </label>
-            </div>
-            <div>
-                <label>
-                    New draft:
-                    <input type="text" name="new-draft" required class="draft-control">
-                </label>
-            </div>
-            <div>
-                <input type="submit" value="save" class="btn">
-            </div>
+    <form id="new_book" method="POST" action="/working_draft">
+    <div>
+        <label for="title_field"> Title </label>
+        <input id="title_field" type="text" name="title" required class="draft-control">
     </div>
 
+    <div>
+        <label for="draft_field"> Write Draft </label>
+        <input id="draft_field" type="text" name="new_draft" required class="draft-control">
+    </div>
+    <div>
+        <button id="save"> Save Draft </button>
+    </div>
+    <div>
+        <button id="publish"> Publish </button>
+        <span id="publish-draft"></span>
+    </div>
+
+        <script>
+        // function publishDoc(evt) {
+        $('.draft-control').ready(function(){
+            $('#publish').click(function){
+            $.post('/publish_book/publish',
+            {
+                title: $('#title_field').val();
+                new_draft: $('#draft_field').val();
+            },
+
+            function (data) {
+            $('#publish-draft').text('Your draft is now published!');
+            // $('publish').attr('disabled', true);
+
+            });
+        });
+    });
+// }
+
+        // $('.draft-control').on('click', publishDoc);
+
+</script>
 </form>
-</div>
-{% endblock %}
 </body>
+
+{% endblock %}
+
+
+

@@ -40,16 +40,17 @@ class Book(db.Model):
 
     book_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    draft = db.Column(db.String(10000), nullable=False)
     title = db.Column(db.String(200), nullable=True)
     date = db.Column(db.DateTime)
 
     # Define relationship to User
-    user = db.relationship("User", backref=db.backref("books", order_by=date))
+    user = db.relationship("User", backref=db.backref("books", order_by=user_id))
 
 
     def __repr__(self):
 
-        return "<Book book_id=%s title=%s>" % (self.book_id, self.title)
+        return "<Book book_id=%s draft=%s title=%s>" % (self.book_id, self.draft, self.title)
 
 
 
