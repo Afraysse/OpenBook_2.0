@@ -1,0 +1,1 @@
+$.get("/get_drafts")

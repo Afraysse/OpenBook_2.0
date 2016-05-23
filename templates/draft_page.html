@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<body>
+    <form id="new_book" method="POST" action="/drafts">
+    <div>
+        <label for="title_field"> Title </label>
+        <input id="title_field" type="text" name="title" required class="draft-control">
+    </div>
+
+    <div>
+        <label for="draft_field"> Write Draft </label>
+        <input id="draft_field" type="text" name="draft" required class="draft-control">
+    </div>
+    <div>
+        <button id="save"> Save Draft </button>
+        <script src="/static/js/save_draft.js"></script>
+    </div>
+    <div>
+        <input type="submit" name="action" value="publish"/>
+        <script src="/static/js/publish_draft.js"></script>
+    </div>
+</form>
+
+
+
+
+<script>
+
+
+        //gets all the drafts saved
+        $.get("/drafts",
+        function (data) {
+            console.log(data);
+        });
+
+        $.get("/drafts",
+            $()
+
+            )
+
+        //gets one draft based on book_id
+        $.get("/draft/<int:id>"),
+        function (data) {
+            console.log(data)
+        }
+
+
+        // function publishDoc(evt) {
+        $('.draft-control').ready(function() {
+            console.log("adding event handler");
+            $('#save').click(function(evt) {
+                debugger;
+
+
+                evt.preventDefault();
+                console.log("you clicked save");
+                $.post("/book/{{ session['book_id'] }}",
+                    {
+                        title: $('#title_field').val(),
+                        draft: $('#draft_field').val()
+                    },
+
+
+                    function (data) {
+                        console.log("successfully saved");
+                        $('#save-draft').text('Your draft is now saved!');
+                        // $('publish').attr('disabled', true);
+                    });
+        });
+    });
+// }
+
+        // $('.draft-control').on('click', publishDoc);
+
+</script>
+
+
+
+</body>
+
+{% endblock %}
+

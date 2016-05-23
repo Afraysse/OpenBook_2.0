@@ -1,8 +1,8 @@
-"""Movie Ratings."""
+"""Openbook - A Writing Database"""
 
 from jinja2 import StrictUndefined
 
-from flask import Flask, render_template, flash, redirect, session, request
+from flask import Flask, render_template, flash, redirect, session, request, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Book, Published
@@ -21,6 +21,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     """ Homepage with login/register. """
+    # import pdb; pdb.set_trace()
 
     return render_template("homepage.html")
 
@@ -54,7 +55,7 @@ def login():
     session["user_id"] = user.user_id
 
     flash("Welcome!")
-    return redirect("/dashboard")
+    return redirect('/feed')
 
 
 @app.route('/logout')
@@ -94,100 +95,158 @@ def registration():
     return redirect('/login')
 
 
-@app.route('/dashboard') #shows last_name + user_id
+@app.route('/feed') #feed
 def user_dashboard():
-    """ Interactive Dashboard. """
+    """ Interactive feed. """
 
-    #publish post = Published.query.all()
-
-    #jinja: if published_posts: for --> iterate over
-
-    #working on adding functions to dashboard and profile
-
-    #add a high testing percentage
+    return render_template("feed.html")
 
 
-    return render_template("dashboard.html")
+@app.route('/profile/<int:user_id>')
+def user_detail(user_id):
+    """ Show info about user. """
 
-# @app.route('/profile')
-# def user_profile():
-#     """ User profile page. """
+    # Button will take you to book list 
 
-#     return render_template("profile.html")
+    user = User.query.get(user_id)
+    return render_template("profile.html", user=user)
 
-# @app.route('/inbox')
-# def user_messaging():
-#     """ Messaging Inbox. """
+@app.route('/get_drafts', methods=['GET'])
+def get_old_drafts():
 
-#     return render_template("inbox.html")
+    """ 
+    Pulls all drafts stored in database and presents them in the 
+    HTML file new_draft, ordered_by draft_id. 
 
-# @app.route('/explore')
-# def user_explore():
-#     """ Explore the unfollowed. """
+    """
 
-#     return render_template("explore.html")
+    drafts = Draft.query.order_by('draft_id').all()
 
-@app.route('/working_draft', methods=['GET'])
-def working_draft():
-    """ User writes down something new. """
+    draft_list = []
+
+    if draft in drafts:
+        for draft in drafts:
+            draft_dict = {
+                "draft_id": draft_id,
+                "user_id": user_id,
+                "title": title,
+                "draft": draft
+        }
+
+    draft_list = draft_list.append(draft_dict)
+
+    return jsonify(draft_list)
+
+
+@app.route('/drafts/<int:book_id>', methods=['GET'])
+def get_one_draft():
+
+    """ 
+    Will query and pull for a draft to present on the right screen from the 
+    writing database and then change URL to reflect book_id. 
+
+    """
+
+    book = Book.query.get(book_id)
+
+    single_book = []
+
+    one_book = {
+        "title": title,
+        "draft": draft,
+        }
+
+    single_book = single_book.append(one_book)
+
+    return jsonify(single_book)
+
+
+@app.route('/drafts', methods=['POST'])
+def save_new_draft():
+
+    """ 
+    Saves a new draft to the database, assiging it one book_id.
+
+    """
+
+    title = request.form["title"]
+    draft = request.form["draft"]
+    user_id = session["user_id"]
+
+    save_new_draft = Book(title=title, draft=draft, user_id=user_id)
+
+    db.session.add(save_new_draft)
+    db.session.commit()
+
+    new_draft = Book.query.filter_by(title=title, draft=draft, user_id=user_id).first()
+    session["book_id"] = new_draft.book_id
+
+
+@app.route('/draft/<int:draft_id>', methods=['PUT'])
+def save_old_draft(draft_id):
+
+    """ Saves an old draft to overwrite the current book_id. """
+
+    book = Book.query.filter_by('book_id').one()
+
+
+
+@app.route('/drafts/<int:draft_id>', methods=['DEL'])
+def delete_draft(draft_id):
+
+    """ Deletes current draft, whether saved or new. """
+
+    #need to add in data 
+
+
+@app.route('/new_draft', methods=['GET'])
+def render_new_draft_template():
+    """ Renders new_draft template """
 
     return render_template("new_draft.html")
 
-@app.route('/working_draft', methods=['POST'])
-def submit_draft():
-    """ Saves user's draft to data. """
+@app.route('/save_draft', methods=['POST'])
+def redirects_saved_draft():
+    """ Saves new draft to template 'book' so book_id is saved only once. """
 
     title = request.form["title"]
-    draft = request.form["new-draft"] 
+    draft = request.form["draft"]
     user_id = session["user_id"]
 
-    book_draft = Book(title=title, draft=draft, user_id=user_id)
-    
+    saving_draft = Book(title=title, draft=draft, user_id=user_id)
 
-    db.session.add(book_draft)
+    db.session.add(saving_draft)
     db.session.commit()
 
-    book = Book.query.filter_by(title=title, draft=draft, user_id=user_id)
-    session['book_id'] = book.book_id
+    draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
+    session['draft_id'] = draft.draft_id
 
-    return redirect('/profile')
+    return redirect("/draft/<int:draft_id>", title=title,
+                                            draft=draft,
+                                            draft_id=draft_id)
 
-@app.route('/publish_book/publish', methods=['POST'])
-def publish_draft():
+@app.route('/publish_draft', methods=['POST'])
+def publish_new_draft():
 
     title = request.form["title"]
-    draft = request.form["new-draft"]
-    user_id = session["user_id"]
+    draft = request.form["draft"]
+    user_id = request.form["user_id"]
+    book_id = request.form["book_id"]
 
+    publish_draft = Published(title=title, draft=draft, user_id=user_id, book_id=book_id)
 
-    published_draft = Published(title=title, draft=draft, user_id=user_id)
+    saved = Book.query.filter_by(book_id=book_id).first()
 
-    db.session.add(published_draft)
+    if not saved:
+        flash("Please save before publishing.")
+
+    db.session.add(publish_draft)
     db.session.commit()
 
-    return jsonify({'publish': 'success'})
+    publishing = Published.query.filter_by(title=title, draft=draft, user_id=user_id, book_id=book_id)
+    session['publish_id'] = publishing.publish_id
 
-
-# @app.route('/publish', methods=['GET'])
-# def get_publish():
-#     """ Routes draft to be published. """
-
-#     return render_template('published.html')
-
-# @app.route('/publish', methods=['POST'])
-#     """ Posts draft to be published. """
-
-#     user.
-
-#     return redirect('/dashboard')
-
-
-
-
-
-
-
-
+    return redirect("/dashboard")
 
 
 ##############################################################################

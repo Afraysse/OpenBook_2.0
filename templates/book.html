@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="well spaced" style="width:97%">
+<h1> Welcome to your saved draft page </h1>
+
+    <h3>Please select a saved draft</h3>
+    <ul>
+        {% for book in books %}
+        <li>
+            <a href="/book/{{ books.book_id }}">{{ books.book_id }}</a> : {{ books.title }}
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}

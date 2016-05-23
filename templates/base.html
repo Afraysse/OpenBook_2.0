@@ -7,11 +7,9 @@
 
 {% if "user_id" in session %}
         <a href="/logout">Logout</a>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/inbox">Messaging</a>
-        <a href="/explore">Explore</a>
-        <a href="/working_draft">New Draft</a>
-        <a href="/profile">Profile</a>
+        <a href="/feed">News Feed</a>
+        <a href="/new_draft">New Draft</a>
+        <a href="/profile/{{ session['user_id'] }}">Profile</a>
 
 
 {% else %}

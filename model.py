@@ -33,12 +33,12 @@ class User(db.Model):
         return "<User user_id=%s email=%s>" % (self.user_id, self.email)
 
     
-class Book(db.Model):
+class Draft(db.Model):
     """Stores drafts being written by user."""
 
-    __tablename__ = "books"
+    __tablename__ = "drafts"
 
-    book_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    draft_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     draft = db.Column(db.String(10000), nullable=False)
     title = db.Column(db.String(200), nullable=True)
@@ -50,7 +50,7 @@ class Book(db.Model):
 
     def __repr__(self):
 
-        return "<Book book_id=%s draft=%s title=%s>" % (self.book_id, self.draft, self.title)
+        return "<Book draft_id=%s draft=%s title=%s>" % (self.draft_id, self.draft, self.title)
 
 
 
@@ -61,22 +61,23 @@ class Published(db.Model):
 
     publish_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
-    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'))
+    draft_id = db.Column(db.Integer, db.ForeignKey('drafts.draft_id'))
     title = db.Column(db.String(200), nullable=False)
+    draft = db.Column(db.String(10000), nullable=False)
     date = db.Column(db.DateTime)
 
     # # Define relationship to User
     user = db.relationship("User", backref=db.backref("published"))
 
     # Define relationship to Books 
-    book = db.relationship("Book", backref=db.backref("published", order_by=date))
+    drafts = db.relationship("Draft", backref=db.backref("published", order_by=date))
 
     def __repr__(self):
 
-        return "<Published publish_id=%s title=%s user_id=% book__date=%>" % (self.publish_id, 
+        return "<Published publish_id=%s title=%s user_id=%s date=%s>" % (self.publish_id, 
                                                                             self.title, 
                                                                             self.user_id, 
-                                                                            self.book_date)
+                                                                            self.date)
 
 
 ##############################################################################
