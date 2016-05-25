@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, flash, redirect, session, request, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, User, Book, Published
+from model import connect_to_db, db, User, Draft, Published
 
 
 app = Flask(__name__)
@@ -111,6 +111,18 @@ def user_detail(user_id):
     user = User.query.get(user_id)
     return render_template("profile.html", user=user)
 
+################################################################################
+
+# Routes for draft_page.html - basically all draft functions
+
+@app.route('/draft_page')
+def render_new_draft_template():
+    """ Renders new_draft template """
+
+
+    return render_template("draft_page.html")
+
+
 @app.route('/get_drafts', methods=['GET'])
 def get_old_drafts():
 
@@ -119,76 +131,79 @@ def get_old_drafts():
     HTML file new_draft, ordered_by draft_id. 
 
     """
+    import pdb; pdb.set_trace()
 
-    drafts = Draft.query.order_by('draft_id').all()
+    drafts = Draft.query.filter_by(user_id=session["user_id"]).all()
 
     draft_list = []
 
-    if draft in drafts:
+    if drafts:
         for draft in drafts:
             draft_dict = {
-                "draft_id": draft_id,
-                "user_id": user_id,
-                "title": title,
-                "draft": draft
+                "draft_id": draft.draft_id,
+                "user_id": draft.user_id,
+                "title": draft.title,
+                "draft": draft.draft
         }
 
-    draft_list = draft_list.append(draft_dict)
+            draft_list.append(draft_dict)
 
-    return jsonify(draft_list)
+    return jsonify({"draft_list": draft_list})
 
-
-@app.route('/drafts/<int:book_id>', methods=['GET'])
+@app.route('/draft/<int:draft_id>', methods=['GET'])
 def get_one_draft():
 
     """ 
-    Will query and pull for a draft to present on the right screen from the 
-    writing database and then change URL to reflect book_id. 
+    On click will grab a specific draft from the leftside list and present it in 
+    the editor on the right side of the page.
 
     """
 
-    book = Book.query.get(book_id)
+    draft = Draft.query.get(draft_id)
 
-    single_book = []
-
-    one_book = {
+    one_draft = {
         "title": title,
         "draft": draft,
         }
 
-    single_book = single_book.append(one_book)
+    return jsonify(one_draft)
 
-    return jsonify(single_book)
+    #on 'click' retrieve a single draft and display it on the rightside of the screen
+    #for edit or review 
+
+@app.route('/overwrite_draft', methods=['POST'])
+def overwrite():
+
+    return jsonify({'success': 'true'})
+
+# when you hit save, this overwrites the previous copy, perserving the draft_id to 
+# one draft_id per draft stored in Draft db
 
 
-@app.route('/drafts', methods=['POST'])
-def save_new_draft():
-
-    """ 
-    Saves a new draft to the database, assiging it one book_id.
-
-    """
+@app.route('/save_draft', methods=['POST'])
+def save_draft():
+    """ Saves new draft to template 'draft' so draft_id is saved only once. """
 
     title = request.form["title"]
     draft = request.form["draft"]
     user_id = session["user_id"]
 
-    save_new_draft = Book(title=title, draft=draft, user_id=user_id)
+    # if session[]
 
-    db.session.add(save_new_draft)
+
+    # else: 
+    saving_draft = Draft(title=title, draft=draft, user_id=user_id)
+
+    db.session.add(saving_draft)
     db.session.commit()
 
-    new_draft = Book.query.filter_by(title=title, draft=draft, user_id=user_id).first()
-    session["book_id"] = new_draft.book_id
+    draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
+    session['draft_id'] = draft.draft_id
 
+    return "Successfully Saved!"
 
-@app.route('/draft/<int:draft_id>', methods=['PUT'])
-def save_old_draft(draft_id):
-
-    """ Saves an old draft to overwrite the current book_id. """
-
-    book = Book.query.filter_by('book_id').one()
-
+    #do I need to jsonify anything to keep the writing on the page or should I have this reload?
+    #should I save this as a dictionary in python to be JSON-ified into an object for editing?
 
 
 @app.route('/drafts/<int:draft_id>', methods=['DEL'])
@@ -198,55 +213,25 @@ def delete_draft(draft_id):
 
     #need to add in data 
 
-
-@app.route('/new_draft', methods=['GET'])
-def render_new_draft_template():
-    """ Renders new_draft template """
-
-    return render_template("new_draft.html")
-
-@app.route('/save_draft', methods=['POST'])
-def redirects_saved_draft():
-    """ Saves new draft to template 'book' so book_id is saved only once. """
-
-    title = request.form["title"]
-    draft = request.form["draft"]
-    user_id = session["user_id"]
-
-    saving_draft = Book(title=title, draft=draft, user_id=user_id)
-
-    db.session.add(saving_draft)
-    db.session.commit()
-
-    draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
-    session['draft_id'] = draft.draft_id
-
-    return redirect("/draft/<int:draft_id>", title=title,
-                                            draft=draft,
-                                            draft_id=draft_id)
-
 @app.route('/publish_draft', methods=['POST'])
 def publish_new_draft():
 
     title = request.form["title"]
     draft = request.form["draft"]
     user_id = request.form["user_id"]
-    book_id = request.form["book_id"]
+    draft_id = request.form["draft_id"]
 
-    publish_draft = Published(title=title, draft=draft, user_id=user_id, book_id=book_id)
+    publish_draft = Published(title=title, draft=draft, user_id=user_id, draft_id=draft_id)
 
-    saved = Book.query.filter_by(book_id=book_id).first()
-
-    if not saved:
-        flash("Please save before publishing.")
+    saved = Draft.query.filter_by(draft_id=draft_id).first()
 
     db.session.add(publish_draft)
     db.session.commit()
 
-    publishing = Published.query.filter_by(title=title, draft=draft, user_id=user_id, book_id=book_id)
+    publishing = Published.query.filter_by(title=title, draft=draft, user_id=user_id, draft_id=draft_id)
     session['publish_id'] = publishing.publish_id
 
-    return redirect("/dashboard")
+    return redirect("/dashboard", draft_id=draft_id)
 
 
 ##############################################################################

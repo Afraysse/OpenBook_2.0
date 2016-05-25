@@ -1,22 +1,25 @@
 "use strict";
 
-function showInputResults(result) {
-    alert(result);
-}
+    function showInputResults(result) {
+        alert(result);
+    }
 
-function saveDraft(evt) {
-    evt.preventDefault();
+    function saveDraft(evt) {
+        evt.preventDefault();
+        console.log("hello");
 
-    var formInputs = {
-        "title": $("#title-field").val(),
-        "draft": $("#draft-field").val()
-    };
+        var formInputs = {
+            "title": $("#title_field").val(),
+            "draft": $("#draft_field").val(),
+        };
+        console.log("hello");
 
-    $.post("/save_draft",
-            formInputs,
-            showInputResults
-            );
+        $.post("/save_draft",
+                formInputs,
+                showInputResults
+                );
+        console.log("hello");
 
-}
+    }
 
-$(".draft-control").on("save", saveDraft)
+    $("#save_draft").on("submit", saveDraft);
