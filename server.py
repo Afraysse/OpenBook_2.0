@@ -123,8 +123,20 @@ def get_drafts_app():
 
 @app.route('/api/drafts', methods=['GET'])
 def get_all_drafts():
+
+    # collects everything from the Draft class by filtering by user_id in session and
+    # saving it in variable, 'drafts'
+
     drafts = Draft.query.filter_by(user_id=session["user_id"]).all()
+
+    # for draft in drafts (the collection from above), run function to.dict() on draft
+    # to store each draft in dictionary form in a list.
+
     draft_dicts = [draft.to_dict() for draft in drafts]
+
+    # jsonify key 'drafts' with the value draft_dicts - a list of dictionaries of each draft,
+    # of all the drafts 
+    
     return jsonify({'drafts': draft_dicts})
 
 
@@ -132,7 +144,7 @@ def get_all_drafts():
 def save_draft():
     """ Saves new draft to template 'draft' so draft_id is saved only once. """
 
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     # here is the real request for an object
     #form is for a post request
