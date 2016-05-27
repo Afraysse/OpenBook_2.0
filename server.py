@@ -11,7 +11,7 @@ from model import connect_to_db, db, User, Draft, Published
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC"
+app.secret_key = "CBA"
 
 # Normally, if you use an undefined variable in Jinja2, it fails silently.
 # This is horrible. Fix this so that, instead, it raises an error.
@@ -115,43 +115,71 @@ def user_detail(user_id):
 
 # Routes for draft_page.html - basically all draft functions
 
-@app.route('/draft_page')
+@app.route('/draft_page', methods=['GET'])
 def render_new_draft_template():
     """ Renders new_draft template """
 
-
-    return render_template("draft_page.html")
-
-
-@app.route('/get_drafts', methods=['GET'])
-def get_old_drafts():
-
-    """ 
-    Pulls all drafts stored in database and presents them in the 
-    HTML file new_draft, ordered_by draft_id. 
-
-    """
-    import pdb; pdb.set_trace()
-
     drafts = Draft.query.filter_by(user_id=session["user_id"]).all()
 
-    draft_list = []
+    return render_template("draft_page.html", drafts=drafts)
 
-    if drafts:
-        for draft in drafts:
-            draft_dict = {
-                "draft_id": draft.draft_id,
-                "user_id": draft.user_id,
-                "title": draft.title,
-                "draft": draft.draft
-        }
 
-            draft_list.append(draft_dict)
+@app.route('/save_draft', methods=['POST'])
+def save_draft():
+    """ Saves new draft to template 'draft' so draft_id is saved only once. """
 
-    return jsonify({"draft_list": draft_list})
+    import pdb; pdb.set_trace()
 
-@app.route('/draft/<int:draft_id>', methods=['GET'])
-def get_one_draft():
+    # here is the real request for an object
+    #form is for a post request
+
+    #reassigning variable names to dict values from save_draft.js
+
+    new_title = request.form.get("title") #contains value id title_field
+    new_draft = request.form.get("draft") #contains value id draft_field
+    user_id = session["user_id"]
+
+    print new_draft
+    print new_title
+
+    # import pdb; pdb.set_trace()
+
+    # if this draft_id is in session
+    if 'draft_id' in session:
+        print session['draft_id']
+        # query by that draft_id to get the attributes stored in the object
+        draft = Draft.query.get(session['draft_id'])
+        
+        # reassign new variables from above, containing the values of dict formInputs
+        draft.draft = new_draft
+        draft.title = new_title
+
+        db.session.add(draft)
+        db.session.commit()
+
+        return jsonify({'draft_id': draft.draft_id, 'draft_title': draft.title})
+
+    # else: 
+    # Draft is the class; everything in () are attributes
+    # binding the object to var saving_draft
+    # makes saving_draft the object 
+    else:
+
+        saving_draft = Draft(title=new_title, draft=new_draft, user_id=user_id)
+
+        db.session.add(saving_draft)
+        db.session.commit()
+
+        # saved_draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
+        session['draft_id'] = saving_draft.draft_id
+
+        return jsonify({'draft_id': saving_draft.draft_id, 'draft_title': saving_draft.title})
+
+    #do I need to jsonify anything to keep the writing on the page or should I have this reload?
+    #should I save this as a dictionary in python to be JSON-ified into an object for editing?
+
+@app.route('/draft_page/<int:draft_id>')
+def get_one_draft(draft_id):
 
     """ 
     On click will grab a specific draft from the leftside list and present it in 
@@ -161,67 +189,20 @@ def get_one_draft():
 
     draft = Draft.query.get(draft_id)
 
-    one_draft = {
-        "title": title,
-        "draft": draft,
-        }
-
-    return jsonify(one_draft)
+    return render_template("draft_page.html", draft=draft)
 
     #on 'click' retrieve a single draft and display it on the rightside of the screen
     #for edit or review 
 
-@app.route('/overwrite_draft', methods=['POST'])
-def overwrite():
-
-    return jsonify({'success': 'true'})
-
-# when you hit save, this overwrites the previous copy, perserving the draft_id to 
-# one draft_id per draft stored in Draft db
-
-
-@app.route('/save_draft', methods=['POST'])
-def save_draft():
-    """ Saves new draft to template 'draft' so draft_id is saved only once. """
-
-    title = request.form["title"]
-    draft = request.form["draft"]
-    user_id = session["user_id"]
-
-    # if session[]
-
-
-    # else: 
-    saving_draft = Draft(title=title, draft=draft, user_id=user_id)
-
-    db.session.add(saving_draft)
-    db.session.commit()
-
-    draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
-    session['draft_id'] = draft.draft_id
-
-    return "Successfully Saved!"
-
-    #do I need to jsonify anything to keep the writing on the page or should I have this reload?
-    #should I save this as a dictionary in python to be JSON-ified into an object for editing?
-
-
-@app.route('/drafts/<int:draft_id>', methods=['DEL'])
-def delete_draft(draft_id):
-
-    """ Deletes current draft, whether saved or new. """
-
-    #need to add in data 
-
 @app.route('/publish_draft', methods=['POST'])
 def publish_new_draft():
 
-    title = request.form["title"]
-    draft = request.form["draft"]
-    user_id = request.form["user_id"]
-    draft_id = request.form["draft_id"]
+    title = request.form.get("title")
+    draft = request.form.get("draft")
+    user_id = session["user_id"]
+    draft_id = session["draft_id"]
 
-    publish_draft = Published(title=title, draft=draft, user_id=user_id, draft_id=draft_id)
+    publish_draft = Published(title=title, draft=draft, user_id=user_id)
 
     saved = Draft.query.filter_by(draft_id=draft_id).first()
 
@@ -231,7 +212,9 @@ def publish_new_draft():
     publishing = Published.query.filter_by(title=title, draft=draft, user_id=user_id, draft_id=draft_id)
     session['publish_id'] = publishing.publish_id
 
-    return redirect("/dashboard", draft_id=draft_id)
+    publish = Published.query.filter_by(user_id=session["user_id"]).first()
+
+    return redirect("/dashboard", publish=publish)
 
 
 ##############################################################################

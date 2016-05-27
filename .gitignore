@@ -1,0 +1,4 @@
+*.DS_Store
+env/
+not_in_use/
+*.pyc

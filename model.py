@@ -2,6 +2,8 @@
 
 from flask_sqlalchemy import SQLAlchemy
 
+import datetime
+
 # This is the connection to the PostgreSQL database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
 # object, where we do most of our interactions (like committing, etc.)
@@ -42,15 +44,20 @@ class Draft(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     draft = db.Column(db.String(10000), nullable=False)
     title = db.Column(db.String(200), nullable=True)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # Define relationship to User
-    user = db.relationship("User", backref=db.backref("books", order_by=user_id))
+    user = db.relationship("User", backref=db.backref("drafts", order_by=user_id))
+
+    # def __init__(self, user_id, draft, title):
+
+    #     self.draft = draft
+    #     self.title = title
 
 
     def __repr__(self):
 
-        return "<Book draft_id=%s draft=%s title=%s>" % (self.draft_id, self.draft, self.title)
+        return "<Draft draft_id=%s draft=%s title=%s>" % (self.draft_id, self.draft, self.title)
 
 
 
@@ -64,13 +71,14 @@ class Published(db.Model):
     draft_id = db.Column(db.Integer, db.ForeignKey('drafts.draft_id'))
     title = db.Column(db.String(200), nullable=False)
     draft = db.Column(db.String(10000), nullable=False)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # # Define relationship to User
-    user = db.relationship("User", backref=db.backref("published"))
+    user = db.relationship("User", backref=db.backref("published", order_by=user_id))
 
     # Define relationship to Books 
-    drafts = db.relationship("Draft", backref=db.backref("published", order_by=date))
+    drafts = db.relationship("Draft", backref=db.backref("published", order_by=draft_id))
+
 
     def __repr__(self):
 

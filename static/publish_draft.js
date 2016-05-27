@@ -2,17 +2,28 @@
 
 //build function that displays published drafts sent through html draft page 
 
-function publishDocResults(results) {
-    // console.log(results); //for debugging purposes
-    var published = results;
-    console.log(published);
-    $("#publish_draft").html(published)
-
+function publishDraftResults(results) {
+    alert(result);
 }
 
-function publishDoc(evt) {
-    $.post('/publish_draft', {}, function(data) {
-        $('#publish-')
-    }
+function publishDraft(evt) {
+    evt.preventDefault();
+    console.log("published");
 
-})
+    var formInputs = {
+        "title": $("#title_field").val(),
+        "draft": $("#draft_field").val(),
+
+    };
+    console.log("published here too")
+
+    $.post("/publish_draft",
+            formInputs,
+            publishDraftResults
+            );
+    
+    console.log("published right here as well!")
+}
+
+$("#publish_draft").on("submit", publishDraft)
+
