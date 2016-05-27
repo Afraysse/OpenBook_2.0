@@ -115,13 +115,17 @@ def user_detail(user_id):
 
 # Routes for draft_page.html - basically all draft functions
 
-@app.route('/draft_page', methods=['GET'])
-def render_new_draft_template():
-    """ Renders new_draft template """
+@app.route('/draft_page')
+def get_drafts_app():
+    """ Renders the drafts app """
+    return render_template("draft_page.html")
 
+
+@app.route('/api/drafts', methods=['GET'])
+def get_all_drafts():
     drafts = Draft.query.filter_by(user_id=session["user_id"]).all()
-
-    return render_template("draft_page.html", drafts=drafts)
+    draft_dicts = [draft.to_dict() for draft in drafts]
+    return jsonify({'drafts': draft_dicts})
 
 
 @app.route('/save_draft', methods=['POST'])

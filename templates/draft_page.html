@@ -3,9 +3,7 @@
 {% block content %}
 
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="/static/save_draft.js"></script>
-<script src="/static/publish_draft.js"></script>
-<script src="/static/display_old_drafts.js"></script>
+<script src="/static/drafts.js"></script>
 
 
 <!-- Check to see if in drafts; if not, save -->
@@ -25,14 +23,14 @@
             <input id="save_btn" type="submit" name="Save">
     </form>
 {% endif %}
-
+<!-- 
 {% if session.get('draft_id') %}
     <form action="/publish_draft" method="POST" id="publish_draft">
         <input type="hidden" id="publish_draft" value="{{ 'draft_id' }}">
         <input type="submit" id="publish_btn" value="Publish">
     </form>
 {% endif %}
-
+ -->
 
        
  <style>
@@ -45,47 +43,7 @@
 <div id="previousDrafts">
     Previous Drafts
 </div>
-{% if drafts %}
-    {% for draft in drafts %}
 
-    <a href="/draft_page/{{ draft.draft_id }}"><h2> {{ draft.title }}</h2></a>
-
-    {% endfor %}
-
-{% endif %}
-
-
-<!-- "use strict";
-
-    function showInputResults(result) {
-        alert(result.draft_id);
-        $('#previousDrafts').append('<a href=' + "/draft_page/" + result.draft_id + '>' + '<h2>' + result.draft_title + '</h2>' + '</a>')
-    }
-
-    function saveDraft(evt) {
-        evt.preventDefault();
-        console.log("hello");
-        console.log($("#draft_field").val())
-        console.log($("#title_field").val())
-
-        var formInputs = {
-            "title": $("#title_field").val(),
-            "draft": $("#draft_field").val(),
-        };
-        console.log("hello");
-
-        //make a post request - sending it to the route
-        $.post("/save_draft",
-                formInputs,
-
-                showInputResults
-                );
-        console.log("hello");
-
-    }
-
-    $("#save_draft").on("submit", saveDraft);
- -->
 
 </body>
 

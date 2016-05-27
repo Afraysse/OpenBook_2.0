@@ -34,6 +34,13 @@ class User(db.Model):
 
         return "<User user_id=%s email=%s>" % (self.user_id, self.email)
 
+    def to_dict(self):
+        return {
+            'id': self.user_id,
+            'name': '%s %s' % (self.first_name, self.last_name),
+            'email': self.email,
+            'age': self.age
+        }
     
 class Draft(db.Model):
     """Stores drafts being written by user."""
@@ -59,6 +66,14 @@ class Draft(db.Model):
 
         return "<Draft draft_id=%s draft=%s title=%s>" % (self.draft_id, self.draft, self.title)
 
+    def to_dict(self):
+        return {
+            'id': self.draft_id,
+            'user': self.user.to_dict(),
+            'contents': self.draft,
+            'title': self.title,
+            'date': self.date,
+        }
 
 
 class Published(db.Model):
