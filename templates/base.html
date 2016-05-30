@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
     <title>OpenBook</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
+
 
 {% if "user_id" in session %}
         <a href="/logout">Logout</a>
@@ -16,6 +20,7 @@
 
 {% with messages = get_flashed_messages() %}
 {% for message in messages %}
+
     {{ message }}
 
 {% endfor %}

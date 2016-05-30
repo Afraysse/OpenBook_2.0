@@ -28,6 +28,9 @@ $(function() { //says run this function once the DOM is ready
             $draft.append('<p class=object id=' + draft.id +'>' + draft.title + '</p>') //append to draft var DOM element paragraph draft.title
             $draft.click(function(evt) { // 'e' is short for event
                 console.log(draft)
+                $("#title_field").val(draft.title)
+                $("#draft_field").val(draft.contents)
+                $("#id_field").val(draft.id)
         })
             $draftContainer.append($draft) //to the draftContainer, append var draft
             // $draft contains the paragraph component of draft.title 
@@ -46,6 +49,10 @@ $(function() { //says run this function once the DOM is ready
 //jquery to display objects parsed from python dictionary in model
 //Display draft to show draft on page
 
+$(document).ready(function (){
+
+
+})
 
 
 

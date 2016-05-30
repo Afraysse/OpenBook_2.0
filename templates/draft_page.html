@@ -2,7 +2,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<script src="https://code.jquery.com/jquery.js"></script>
 <script src="/static/drafts.js"></script>
 
 
@@ -14,14 +13,18 @@
 
         <div>
             <label for="title_field"> Title </label>
-            <p id="title"><input name="title" id="title_field" type="text" class="draft-control"></p>
+            <p><input name="title" id="title_field" type="text" class="draft-control"></p>
         </div>
 
         <div>
             <label for="draft_field"> Draft </label>
-            <p id="draft"><input name="draft" id="draft_field" type="text" class="draft-control"></p>
+            <p><input name="draft" id="draft_field" type="text" class="draft-control"></p>
         </div>
 
+        <div>
+            <label for="id_field"> id </label>
+            <p><input name="id" id="id_field" type="text" class="draft-control"></p>
+        </div>
     </div>
 
         <!-- Save button -->

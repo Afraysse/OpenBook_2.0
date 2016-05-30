@@ -27,14 +27,6 @@ def index():
     return render_template("homepage.html")
 
 
-# @app.route('/login', methods=['GET'])
-# def login_form():
-#     """Login form."""
-
-#     return render_template("login.html")
-
-    #form variables for route: email and password
-
 @app.route('/login', methods=['POST'])
 def login():
     """ Processes login. """
@@ -189,6 +181,7 @@ def save_draft():
 
     new_title = request.form.get("title") #contains value id title_field
     new_draft = request.form.get("draft") #contains value id draft_field
+    new_id = request.form.get("id")
     user_id = session["user_id"]
 
     print new_draft
@@ -197,35 +190,33 @@ def save_draft():
     # import pdb; pdb.set_trace()
 
     # if this draft_id is in session
-    if 'draft_id' in session:
-        print session['draft_id']
-        # query by that draft_id to get the attributes stored in the object
-        draft = Draft.query.get(session['draft_id'])
-        
-        # reassign new variables from above, containing the values of dict formInputs
-        draft.draft = new_draft
-        draft.title = new_title
+    # query by that draft_id to get the attributes stored in the object
+    draft = Draft.query.filter(Draft.draft_id == int(new_id)).one()
+   
+    
+    # reassign new variables from above, containing the values of dict formInputs
+    draft.draft = new_draft
+    draft.title = new_title
 
-        db.session.add(draft)
-        db.session.commit()
+    db.session.add(draft)
+    db.session.commit()
 
-        return jsonify({'draft_id': draft.draft_id, 'draft_title': draft.title})
+    return jsonify({'draft_id': draft.draft_id, 'draft_title': draft.title})
 
     # else: 
     # Draft is the class; everything in () are attributes
     # binding the object to var saving_draft
     # makes saving_draft the object 
-    else:
+    # else:
+    #     saving_draft = Draft(title=new_title, draft=new_draft, user_id=user_id)
 
-        saving_draft = Draft(title=new_title, draft=new_draft, user_id=user_id)
+    #     db.session.add(saving_draft)
+    #     db.session.commit()
 
-        db.session.add(saving_draft)
-        db.session.commit()
+    #     # saved_draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
+    #     session['draft_id'] = saving_draft.draft_id
 
-        # saved_draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
-        session['draft_id'] = saving_draft.draft_id
-
-        return jsonify({'draft_id': saving_draft.draft_id, 'draft_title': saving_draft.title})
+    #     return jsonify({'draft_id': saving_draft.draft_id, 'draft_title': saving_draft.title})
 
     #do I need to jsonify anything to keep the writing on the page or should I have this reload?
     #should I save this as a dictionary in python to be JSON-ified into an object for editing?
