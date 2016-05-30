@@ -10,28 +10,24 @@
 <body>
 {% if session.get('user_id') %} <!-- Query for draft in drafts -->
     <form action="/save_draft" method="POST" id="save_draft">
+    <div id="editContainer">
+
         <div>
             <label for="title_field"> Title </label>
-            <input name="title" id="title_field" type="text" class="draft-control">
+            <p id="title"><input name="title" id="title_field" type="text" class="draft-control"></p>
         </div>
-        <div> 
+
+        <div>
             <label for="draft_field"> Draft </label>
-            <input name="draft" id="draft_field" type="text" class="draft-control">
+            <p id="draft"><input name="draft" id="draft_field" type="text" class="draft-control"></p>
         </div>
+
+    </div>
 
         <!-- Save button -->
             <input id="save_btn" type="submit" name="Save">
     </form>
 {% endif %}
-<!-- 
-{% if session.get('draft_id') %}
-    <form action="/publish_draft" method="POST" id="publish_draft">
-        <input type="hidden" id="publish_draft" value="{{ 'draft_id' }}">
-        <input type="submit" id="publish_btn" value="Publish">
-    </form>
-{% endif %}
- -->
-
        
  <style>
  #previousDrafts {

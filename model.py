@@ -32,7 +32,7 @@ class User(db.Model):
 
     def __repr__(self):
 
-        return "<User user_id=%s email=%s>" % (self.user_id, self.email)
+        return "<User user_id={} email={}>".format(self.user_id, self.email)
 
     def to_dict(self):
         return {
@@ -64,7 +64,7 @@ class Draft(db.Model):
 
     def __repr__(self):
 
-        return "<Draft draft_id=%s draft=%s title=%s>" % (self.draft_id, self.draft, self.title)
+        return "<Draft draft_id={} draft={} title={}>".format(self.draft_id, self.draft, self.title)
 
     def to_dict(self):
         return {
@@ -97,10 +97,19 @@ class Published(db.Model):
 
     def __repr__(self):
 
-        return "<Published publish_id=%s title=%s user_id=%s date=%s>" % (self.publish_id, 
+        return "<Published publish_id={} title={} user_id={} date={}>".format(self.publish_id, 
                                                                             self.title, 
                                                                             self.user_id, 
                                                                             self.date)
+    def to_dict(self):
+        return {
+            'id': self.publish_id,
+            'user': self.user.to_dict(),
+            'draft': self.drafts.to_dict(),
+            'title': self.title,
+            'draft': self.draft
+            # 'date': self.date
+        }
 
 
 ##############################################################################

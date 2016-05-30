@@ -8,21 +8,19 @@
 {% if "user_id" in session %}
         <a href="/logout">Logout</a>
         <a href="/feed">News Feed</a>
-        <a href="/draft_page">Drafts</a>
         <a href="/profile/{{ session['user_id'] }}">Profile</a>
-
-
-{% else %}
-    <a href="/login">Login</a>
-    <a href="/register">Register!</a>
 
 {% endif %}
 
 <hr>
 
-{% for flash in get_flashed_messages() %}
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}
+    {{ message }}
 
 {% endfor %}
+{% endwith %}
+
 
 {% block content %} 
 {% endblock %}

@@ -21,28 +21,31 @@ $(function() { //says run this function once the DOM is ready
 
             // for each draft in drafts run function with parameter (draft)
             // safer than a for loop in Java
+
         drafts.forEach(function(draft) {
             var $draft = $('<div></div>')
             // within the <div> in draft page, assiging var draft (DOM element)
-            $draft.append('<p>' + draft.title + '</p>') //append to draft var DOM element paragraph draft.title
+            $draft.append('<p class=object id=' + draft.id +'>' + draft.title + '</p>') //append to draft var DOM element paragraph draft.title
             $draft.click(function(evt) { // 'e' is short for event
-                // displayDrafts(data.draft)
                 console.log(draft)
-            })
-
+        })
             $draftContainer.append($draft) //to the draftContainer, append var draft
             // $draft contains the paragraph component of draft.title 
+            //event for class on <p> tags
         })
     }
 
+    ////
+
     getDrafts(function(remoteDrafts) {
         drafts = remoteDrafts;
-        displayDrafts(); //
+        displayDrafts(); 
     });
 })
 
 //jquery to display objects parsed from python dictionary in model
 //Display draft to show draft on page
+
 
 
 

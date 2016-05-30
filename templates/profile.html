@@ -3,7 +3,13 @@
 
 <body>
 
-    <a href='/draft_page'>Drafts</a>
+    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Age: {{ user.age }}</p>
+    <p>Draft Count: 10<p>
+
+    <a href='/draft_page'>Old Drafts</a>
+    <a href='/new_draft'>New Draft</a>
 
 {% endblock %}
 </body>
