@@ -4,7 +4,7 @@
 
 $(function() { //says run this function once the DOM is ready
 
-    var server = 'http://localhost:5000' //variable server connects to server
+    var server = 'http://127.0.0.1:5000' //variable server connects to server
     var drafts = []; //a javascript array
     var currentDraft = null;
 

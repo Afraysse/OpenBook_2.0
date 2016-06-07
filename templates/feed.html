@@ -2,22 +2,98 @@
 {% block content %}
 
 <body>
-
-<div class="container" id="feed">
-  <div class="row">
-    <div class="col-xs-12 col-md-2">
-      <img src="/static/images/jumping_girl.jpg" class="img-thumbnail img-responsive" width="304" height="236">
-    </div>
-      <div class="panel panel-default">
-          {% for pub in published_drafts %}
-          <div class="panel-heading">
-            <h3 class="panel-title">{{ pub.title }}</h3>
-          </div>
-          <div>
-          <h5 class="panel-body">{{ pub.draft }}</h5>
+<div id="page-outer">
+    <div class="feed-container" id="feed-page">
+        <div class="feed-canopy feed-canopy--withNav">
+            <div class="feed-canopy-inner">
+                <div class="feed-canopy-header" style="margin-top: 0px">
+                    <div class="feed-canopy-headerSm">
+                        <img id="feed-img" src="/static/images/congruent_pentagon.png">
+                    </div>
+                </div>
+            </div>
         </div>
-        {% endfor %}
+    </div>
 </div>
+  <div class="wrapper">
+    <div class="box">
+      <div class="row">
+       <!-- Newsfeed Sidebar --> 
+        <div class="column col-sm-3" id="newsfeed-sidebar">
+
+          <div class="side-header text-center"><h4>Popular in Your Network</h4></div>
+          <hr>
+          <ul class="nav">
+            <li class="text-center">
+                <h5>Mark Twain</h5>
+                <h6>Short Story</h6>
+                    <img src="//placehold.it/100" class="img-circle"></li>
+            <hr>
+            <li class="text-center">
+                <h5>Theodore Roosevelt</h5>
+                <h6>Autobiography</h6>
+                    <img src="//placehold.it/100" class="img-circle"></li>
+            <hr>
+            <li class="text-center">
+                <h5>Bonnie Parker</h5>
+                <h6>Poetry</h6>
+                    <img src="//placehold.it/100" class="img-circle"></li>
+          </ul>
+          <ul class="nav hidden-xs" id="ob-sidebar-footer">
+            <li>
+            
+            </li>
+          </ul>
+        </div>
+
+        <!-- End Sidebar -->
+
+        <!-- Main Newsfeed Container --> 
+        <div class="column col-sm-9 text-left" id="main-space">
+          <div class="padding">
+            <div class="full col-sm-9">
+            
+              <!-- Published --> 
+              <div class="row">
+                {% for pub in published_drafts %}
+                <div class="col-sm-12">
+                  <h3>{{ pub.title }}</h3>
+                  <h4><span class="label label-default"> Anne Fraysse</span></h4><h4><small class="text-muted">1 hour ago<a href="#" class="text-muted"> Read More</a></small>
+                </h4>
+                <br> 
+              </div> 
+              <div class="draft-body">{{ pub.draft }}</div>
+              <div class="row-divider">
+            <div class="col-sm-12"><hr></div>
+          </div>
+        {% endfor %}  
+            <div class="row">
+              <div class="col-sm-6">
+                <a href="#">Twitter</a> <small class="text-muted">|</small> <a href="#">Facebook</a> <small class="text-muted">|</small> <a href="#">Google+</a>
+              </div>
+            </div>
+            
+            <hr>
+          
+            <div class="row" id="footer">    
+              <div class="col-sm-6">
+                
+              </div>
+              <div class="col-sm-6">
+                <p>
+                <a href="#" class="pull-right">©Copyright 2013</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>]
+
+
+
 
 {% endblock %}
 </body>

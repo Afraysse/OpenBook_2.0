@@ -1,16 +1,18 @@
 
 body {
-    padding-top: 70px;
+    padding-top: 50px;
 }
 
 .container {
     font-family: 'Playfair Display', serif;
+    font-color: black;
 }
 
 /* BASE */
 
 .navbar-default {
     font-family: 'Playfair Display', serif;
+    background-color: black;
 }
 
 .navbar-brand {
@@ -18,6 +20,8 @@ body {
     font-family: 'Merriweather', serif;
     font-style: bold;
 }
+
+
 /* HOMEPAGE */
 
 .authentication {
@@ -37,27 +41,6 @@ body {
     text-align: center;
     color: white;
     vertical-align: middle;
-}
-
-#jumbo-box {
-    background-color: transparent;
-    color: white;
-    padding-top:150px;
-
-}
-
-.panel-default {
-    margin: 0 auto;
-    width: 90%;
-    height: 400px;
-}
-
-.panel-title {
-    font-family: serif;
-}
-
-.panel-body {
-    margin: 0 auto;
 }
 
 .align-center {
@@ -147,9 +130,6 @@ body {
 }
 
 
-
-
-
 /* NEW DRAFT */
 
 
@@ -208,14 +188,52 @@ body {
 
 /* FEED - PUBLISH CONTAINER */
 
-.panel-default {
-    margin: 0 auto;
-    width: 50%;
+.wrapper, .row {
+    height: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    font-family: 'Playfair Display', serif;
+}
+
+#feed-img {
+    vertical-align: middle;
+    width: 100%;
+    height: 150px;
+}
+
+.side-header {
+    font-family: 'Merriweather', serif;
+    font-size: 22px; 
+}
+
+
+.column {
+    padding: 30px;
+    height: 100%;
+    overflow: auto;
+        overflow-x: auto;
+        overflow-y: auto;
 
 }
 
-.panel-title {
-    text-align: center;
+.padding {
+    padding: 10px;
+}
+
+
+.col-sm-3 {
+    width: 30%;
+    background-attachment: fixed;
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.draft-body {
+    text-align: left;
+    padding-left: 15px;
 }
 
 
