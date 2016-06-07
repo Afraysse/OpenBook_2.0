@@ -24,22 +24,13 @@ body {
 
 /* HOMEPAGE */
 
-.authentication {
-    background-image: url('/static/images/typewriter.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
+
 
 .auth-box {
     width: 500px;
     margin: 0 auto;
     background-color: transparent;
     text-align: center;
-    color: white;
     vertical-align: middle;
 }
 
