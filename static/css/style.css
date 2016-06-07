@@ -1,0 +1,221 @@
+
+body {
+    padding-top: 70px;
+}
+
+.container {
+    font-family: 'Playfair Display', serif;
+}
+
+/* BASE */
+
+.navbar-default {
+    font-family: 'Playfair Display', serif;
+}
+
+.navbar-brand {
+    font-size: 30px;
+    font-family: 'Merriweather', serif;
+    font-style: bold;
+}
+/* HOMEPAGE */
+
+.authentication {
+    background-image: url('/static/images/typewriter.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.auth-box {
+    width: 500px;
+    margin: 0 auto;
+    background-color: transparent;
+    text-align: center;
+    color: white;
+    vertical-align: middle;
+}
+
+#jumbo-box {
+    background-color: transparent;
+    color: white;
+    padding-top:150px;
+
+}
+
+.panel-default {
+    margin: 0 auto;
+    width: 90%;
+    height: 400px;
+}
+
+.panel-title {
+    font-family: serif;
+}
+
+.panel-body {
+    margin: 0 auto;
+}
+
+.align-center {
+    text-align: center;
+}
+
+
+.form-size {
+    width: 20%;
+}
+
+/* PROFILE */
+
+#canopy-img {
+    vertical-align: middle;
+    width: 100%;
+    height: 351px;
+}
+
+#navbar-profile {
+    padding-top: 10px;
+}
+
+.navbar-right {
+    width: 55%;
+}
+
+#caption {
+    text-align: center;
+}
+
+.profile-canopy-navbar {
+    padding-top: 5px;
+    min-height: 30px;
+    background-color: #FFFFFF;
+}
+.nav-label {
+    font-family: 'Merriweather', serif;
+    font-size: 14px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+.nav-value {
+    font-size: 18px;
+    padding-top: 3px;
+    font-weight: 500;
+}
+.nav-label, .nav-value {
+    display: block;
+    color: gray;
+    display: inline-block;
+}
+
+.profile-nav-item {
+    display: inline-block;
+    text-align: inherit;
+}
+
+#profile-pic {
+    margin: -190px 0 -20px 30px; /* play with these to position the image */
+    position:absolute;
+    z-index:0;
+    width: 100%;
+    height: 300px;
+} 
+
+.user-name {
+    font-family: 'Merriweather', serif;
+    margin: 125px 0 -20px 30px;
+    position: absolute;
+    z-index: 0;
+} 
+
+.user-email {
+    font-family: 'Merriweather', serif;
+    margin: 160px 0 -20px 30px;
+    position: absolute;
+    z-index: 0;
+}
+
+.user-age {
+    font-family: 'Merriweather', serif;
+    margin: 180px 0 -20px 30px;
+    position: absolute;
+    z-index: 0;
+}
+
+
+
+
+
+/* NEW DRAFT */
+
+
+#title_field {
+    width: 80%;
+    text-align: center;
+    padding: 8px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+}
+
+#draft_field {
+    width: 80%;
+    height: 200px;
+    padding: 8px 10px;
+    margin: 8px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+#save_btn {
+    font-family: 'Playfair Display', serif;
+}
+
+#publish_btn {
+    font-family: 'Playfair Display', serif;
+}
+
+/* DRAFT PAGE */
+
+.btn-display {
+    border: solid black 1px;
+    background-color: white;
+    color: black;
+    font-family: serif;
+    padding: 10px 24px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
+#previousDraft {
+    font-style: bold;
+}
+
+#saved-drafts {
+    font-family: 'Merriweather', serif;
+}
+
+/* FEED - PUBLISH CONTAINER */
+
+.panel-default {
+    margin: 0 auto;
+    width: 50%;
+
+}
+
+.panel-title {
+    text-align: center;
+}
+
+

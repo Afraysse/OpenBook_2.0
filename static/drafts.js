@@ -1,9 +1,12 @@
 "use strict";
 
+////////////////////////////// for saving //////////////////////////////////
+
 $(function() { //says run this function once the DOM is ready
 
     var server = 'http://localhost:5000' //variable server connects to server
     var drafts = []; //a javascript array
+    var currentDraft = null;
 
     function getDrafts(onComplete) { //function called when request finishes
         $.ajax({ //used to perform an asychronous HTTP request
@@ -28,6 +31,8 @@ $(function() { //says run this function once the DOM is ready
             $draft.append('<p class=object id=' + draft.id +'>' + draft.title + '</p>') //append to draft var DOM element paragraph draft.title
             $draft.click(function(evt) { // 'e' is short for event
                 console.log(draft)
+                currentDraft = draft;
+
                 $("#title_field").val(draft.title)
                 $("#draft_field").val(draft.contents)
                 $("#id_field").val(draft.id)
@@ -38,21 +43,60 @@ $(function() { //says run this function once the DOM is ready
         })
     }
 
-    ////
+//////////////////////////////// SAVE DRAFT ////////////////////////////////////
 
-    getDrafts(function(remoteDrafts) {
-        drafts = remoteDrafts;
-        displayDrafts(); 
-    });
+    function showResult(result) {
+        alert(result.draft_id);
+    }
+
+    function saveDraft() {
+        console.log("not doing anything");
+
+        if (!currentDraft) {
+            return;
+        }
+
+        var formInputs = {
+            "title": $("#title_field").val(),
+            "draft": $("#draft_field").val()
+        }
+
+        var draftId = $("#id_field").val()
+
+        $.post("/save_draft/" + draftId,
+            formInputs
+                    );
+
+        console.log(formInputs);
+        console.log(currentDraft)
+    }
+
+    // $.post("/save_draft",
+    //     formInputs,
+    //     showResult);
+
+    function setup() {
+        getDrafts(function(remoteDrafts) {
+            drafts = remoteDrafts;
+            displayDrafts(); 
+
+        });
+
+        $("#save_btn").click(function(evt) {
+            evt.preventDefault();
+            saveDraft();
+        });
+    }
+
+    setup();
+
+    // $("#save_btn").click(function;
 })
 
-//jquery to display objects parsed from python dictionary in model
-//Display draft to show draft on page
-
-$(document).ready(function (){
 
 
-})
+
+
 
 
 

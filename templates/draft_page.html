@@ -4,45 +4,36 @@
 
 <script src="/static/drafts.js"></script>
 
-
 <!-- Check to see if in drafts; if not, save -->
+
 <body>
-{% if session.get('user_id') %} <!-- Query for draft in drafts -->
-    <form action="/save_draft" method="POST" id="save_draft">
-    <div id="editContainer">
-
-        <div>
-            <label for="title_field"> Title </label>
-            <p><input name="title" id="title_field" type="text" class="draft-control"></p>
-        </div>
-
-        <div>
-            <label for="draft_field"> Draft </label>
-            <p><input name="draft" id="draft_field" type="text" class="draft-control"></p>
-        </div>
-
-        <div>
-            <label for="id_field"> id </label>
-            <p><input name="id" id="id_field" type="text" class="draft-control"></p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-md-7">
+                {% if session.get('user_id') %}
+                <form id="save_publish" action="/publish" role="form" method="POST">
+                    <div class="pre-pub-group">
+                        <label for="title_field"></label>
+                            <textarea name="title" id="title_field" class="draft-control" rows="1"></textarea>
+                        <label for="draft_field"></label>
+                            <textarea name="draft" id="draft_field" type="text" class="draft-control"></textarea>
+                        <label for="id_field"></label>
+                            <input name="id" id="id_field" type="hidden" class="draft-control">
+                    </div>
+                    <div>
+                <input class="btn-display" id="save_btn" name="save_btn" type="submit" value="Save">
+            <input class="btn-display" id="publish_btn" name="publish_btn" type="submit" value="Publish">
         </div>
     </div>
+</form>
 
-        <!-- Save button -->
-            <input id="save_btn" type="submit" name="Save">
-    </form>
 {% endif %}
-       
- <style>
- #previousDrafts {
-    border: 1px solid black;
-    margin-bottom: 10px;
- }
-</style>
-<p>List of previous drafts</p>
-<div id="previousDrafts">
-    Previous Drafts
-</div>
 
+<div class="col-md-12 col-md-5">
+    <h1 id="saved-drafts"><p>Saved Drafts</p></h1>
+        <div id="previousDrafts"></div>
+    </div>
+</div>
 
 </body>
 

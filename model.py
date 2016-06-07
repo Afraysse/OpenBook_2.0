@@ -56,11 +56,6 @@ class Draft(db.Model):
     # Define relationship to User
     user = db.relationship("User", backref=db.backref("drafts", order_by=user_id))
 
-    # def __init__(self, user_id, draft, title):
-
-    #     self.draft = draft
-    #     self.title = title
-
 
     def __repr__(self):
 

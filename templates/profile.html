@@ -1,18 +1,67 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<body>
+<!-- <body id="profile_container"> -->
 
-    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-    <p>Email: {{ user.email }}</p>
-    <p>Age: {{ user.age }}</p>
-    <p>Draft Count: 10<p>
-
-    <a href='/draft_page'>Old Drafts</a>
-    <a href='/new_draft'>New Draft</a>
+<div id="page-outer">
+    <div class="page-container" id="profile-page">
+        <div class="profile-canopy profile-canopy--withNav">
+            <div class="profile-canopy-inner">
+                <div class="profile-canopy-header" style="margin-top: 0px">
+                    <div class="profile-canopy-headerBg">
+                        <img id="canopy-img" src="/static/images/sunset.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="navbar navbar-default" id="navbar-profile">
+    <div class="profile-container">
+        <div class="row">
+            <div class="profile-navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="profile-nav-item"></li>
+                        <a class="user-count">
+                            <span class="nav-label">Published</span>
+                            <span class="nav-value">15</span>
+                    <li class="profile-nav-item"></li>
+                        <a class="user-count">
+                            <span class="nav-label">Followers</span>
+                            <span class="nav-value">28</span>
+                    <li class="profile-nav-item"></li>
+                        <a class="user-count">
+                            <span class="nav-label">Following</span>
+                            <span class="nav-value">32</span>
+                    <li class="profile-nav-item"></li>
+                        <a class="user-count">
+                            <span class="nav-label">Likes</span>
+                            <span class="nav-value">40</span>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-3">
+                <img src="/static/images/smiling_girl.jpeg" id="profile-pic" class="img-thumbnail img-responsive">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10">
+                <h2 class="user-name">{{ user.first_name }} {{ user.last_name }}</h2>
+                <h5 class="user-email">{{ user.email }}</h5>
+                <h5 class="user-age">Age {{ user.age }}</h5>
+            </div>
+        </div>
+    </div>
+   
 
 {% endblock %}
-</body>
+<!-- </body> -->
 
 
 <!-- Linked from Dashboard page --> 

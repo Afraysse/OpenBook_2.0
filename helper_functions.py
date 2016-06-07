@@ -16,3 +16,5 @@ def draft_submissions(user_id, published):
 # need to iterate through the dictionary to OR need to query for publish_id
 
 
+def check_publish_id():
+    

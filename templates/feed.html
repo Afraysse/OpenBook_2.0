@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!--put in buttons to connect to new URLS --> 
-
-<!-- URL buttons: messaging, profile, new draft, view friend's page, view 
-    friend's writing sample, explore, logout --> 
 <body>
-    <div class="well spaced" style="width:40%">
-        <h1>Welcome to your Dashboard!</h1>
+
+<div class="container" id="feed">
+  <div class="row">
+    <div class="col-xs-12 col-md-2">
+      <img src="/static/images/jumping_girl.jpg" class="img-thumbnail img-responsive" width="304" height="236">
     </div>
-    <div>
-
-        <!-- make a for loop in jinja -->
-
+      <div class="panel panel-default">
+          {% for pub in published_drafts %}
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ pub.title }}</h3>
+          </div>
+          <div>
+          <h5 class="panel-body">{{ pub.draft }}</h5>
+        </div>
+        {% endfor %}
+</div>
 
 {% endblock %}
 </body>

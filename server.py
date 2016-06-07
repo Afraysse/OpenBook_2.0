@@ -10,18 +10,14 @@ from model import connect_to_db, db, User, Draft, Published
 
 app = Flask(__name__)
 
-# Required to use Flask sessions and the debug toolbar
 app.secret_key = "CBA"
 
-# Normally, if you use an undefined variable in Jinja2, it fails silently.
-# This is horrible. Fix this so that, instead, it raises an error.
 app.jinja_env.undefined = StrictUndefined
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     """ Homepage with login/register. """
-    # import pdb; pdb.set_trace()
 
     current_session = session.get('user_id', None)
     return render_template("homepage.html")
@@ -31,7 +27,6 @@ def index():
 def login():
     """ Processes login. """
 
-    # Get form variables 
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -85,33 +80,52 @@ def registration():
     db.session.commit()
 
     flash("User {} {} added.".format(first_name, last_name))
-    return redirect('/login')
+    return redirect('/')
 
-
-@app.route('/feed') #feed
-def user_dashboard():
-    """ Interactive feed. """
-
-    return render_template("feed.html")
-
+############################# FEED + PROFILE ###################################
 
 @app.route('/profile/<int:user_id>')
 def user_detail(user_id):
     """ Show info about user. """
 
-    # Button will take you to book list 
-
-    user = User.query.get(user_id)
+    user = User.query.get(session["user_id"])
     return render_template("profile.html", user=user)
 
-################################################################################
+################################ NEW DRAFTS ####################################
 
-# Routes for draft_page.html - basically all draft functions
+@app.route('/new_draft', methods=['GET'])
+def set_new_draft():
+
+    """ Renders the template for the new_draft.html page. """
+
+    user = User.query.get(session["user_id"])
+    return render_template('new_draft.html', user=user)
+
+@app.route('/new_draft.json', methods=['POST'])
+def new_draft():
+
+    """ Grabs what is posted in new_draft and commits to DB. """
+
+    title = request.form.get("title-field")  
+    draft = request.form.get("draft-field") 
+    user_id = session["user_id"]
+    user = User.query.filter(User.user_id == user_id).one()
+
+    new_draft = Draft(title=title, draft=draft, user_id=user_id)
+
+    db.session.add(new_draft)
+    db.session.commit()
+
+    return redirect("/draft_page")
+
+################################ OLD DRAFTS ####################################
 
 @app.route('/draft_page')
 def get_drafts_app():
     """ Renders the drafts app """
-    return render_template("draft_page.html")
+
+    user = User.query.get(session["user_id"])
+    return render_template("draft_page.html", user=user)
 
 
 @app.route('/api/drafts', methods=['GET'])
@@ -122,155 +136,112 @@ def get_drafts():
     drafts.js to pull and display old drafts.
 
     """
-    # collects everything from the Draft class by filtering by user_id in session and
-    # saving it in variable, 'drafts'
-
-    drafts = Draft.query.filter_by(user_id=session["user_id"]).all()
-
-    # for draft in drafts (the collection from above), run function to.dict() on draft
-    # to store each draft in dictionary form in a list.
+    drafts = Draft.query.filter_by(user_id=session["user_id"]).order_by(Draft.draft_id.desc()).all()
 
     draft_dicts = [draft.to_dict() for draft in drafts]
 
-    # jsonify key 'drafts' with the value draft_dicts - a list of dictionaries of each draft,
-    # of all the drafts 
     
     return jsonify({'drafts': draft_dicts})
 
-@app.route('/new_draft', methods=['GET'])
-def set_new_draft():
-
-    """ Renders the template for the new_draft.html page. """
-
-    return render_template('new_draft.html')
-
-@app.route('/new_draft.json', methods=['POST'])
-def new_draft():
-
-    """ Grabs what is posted in new_draft and commits to DB. """
-
-    title = request.form.get("title-field") #grabs title from the new draft 
-    draft = request.form.get("draft-field") #grabs draft from the new draft
-    user_id = session["user_id"]
-    user = User.query.filter(User.user_id == user_id).one()
-
-    new_draft = Draft(title=title, draft=draft, user_id=user_id)
-
-    # once it stores in db, will be converted into a dictionary through 
-    # to_dict method
-
-    db.session.add(new_draft)
-    db.session.commit()
-
-    # session['draft_id'] = new_draft.draft_id 
-    # would you want to have the draft id in session?
-
-    return redirect("/draft_page")
+################################ SAVE DRAFT ####################################
 
 
-@app.route('/save_draft', methods=['POST'])
-def save_draft():
+@app.route('/save_draft/<int:id>', methods=['POST'])
+def save_draft(id):
     """ Saves new draft to template 'draft' so draft_id is saved only once. """
 
     # import pdb; pdb.set_trace()
 
-    # here is the real request for an object
-    #form is for a post request
-
-    #reassigning variable names to dict values from save_draft.js
+    # if not draft or title:
+    #     #return 400
+    #     pass
 
     new_title = request.form.get("title") #contains value id title_field
     new_draft = request.form.get("draft") #contains value id draft_field
-    new_id = request.form.get("id")
     user_id = session["user_id"]
-
-    print new_draft
-    print new_title
 
     # import pdb; pdb.set_trace()
 
-    # if this draft_id is in session
-    # query by that draft_id to get the attributes stored in the object
-    draft = Draft.query.filter(Draft.draft_id == int(new_id)).one()
+    draft = Draft.query.filter(Draft.draft_id == id).one()
+    
+    if not draft:
+        # Return 404 not found to user
+        pass
    
     
-    # reassign new variables from above, containing the values of dict formInputs
     draft.draft = new_draft
     draft.title = new_title
 
     db.session.add(draft)
     db.session.commit()
 
-    return jsonify({'draft_id': draft.draft_id, 'draft_title': draft.title})
+    flash("Draft Successfully Saved!")
+    return jsonify({"success": 1})
 
-    # else: 
-    # Draft is the class; everything in () are attributes
-    # binding the object to var saving_draft
-    # makes saving_draft the object 
-    # else:
-    #     saving_draft = Draft(title=new_title, draft=new_draft, user_id=user_id)
+############################### PUBLISH DRAFT ##################################
 
-    #     db.session.add(saving_draft)
-    #     db.session.commit()
 
-    #     # saved_draft = Draft.query.filter_by(title=title, draft=draft, user_id=user_id).first()
-    #     session['draft_id'] = saving_draft.draft_id
+@app.route('/publish', methods=['POST'])
+def feed_publish():
 
-    #     return jsonify({'draft_id': saving_draft.draft_id, 'draft_title': saving_draft.title})
-
-    #do I need to jsonify anything to keep the writing on the page or should I have this reload?
-    #should I save this as a dictionary in python to be JSON-ified into an object for editing?
-
-@app.route('/draft_page/<int:draft_id>')
-def get_one_draft(draft_id):
-
-    """ 
-    On click will grab a specific draft from the leftside list and present it in 
-    the editor on the right side of the page.
-
-    """
-
-    draft = Draft.query.get(draft_id)
-
-    return render_template("draft_page.html", draft=draft)
-
-    #on 'click' retrieve a single draft and display it on the rightside of the screen
-    #for edit or review 
-
-@app.route('/publish_draft', methods=['POST'])
-def publish_new_draft():
-
-    title = request.form.get("title")
+    title = request.form.get("title")  
     draft = request.form.get("draft")
+    draft_id = request.form.get("id")
     user_id = session["user_id"]
-    draft_id = session["draft_id"]
 
-    publish_draft = Published(title=title, draft=draft, user_id=user_id)
+    print title
+    print draft
 
-    saved = Draft.query.filter_by(draft_id=draft_id).first()
+    publish_draft = Published.query.filter_by(title=title, user_id=user_id).first()
 
-    db.session.add(publish_draft)
-    db.session.commit()
+    if publish_draft:
 
-    publishing = Published.query.filter_by(title=title, draft=draft, user_id=user_id, draft_id=draft_id)
-    session['publish_id'] = publishing.publish_id
+        publish_draft.title = title
+        publish_draft.draft = draft
 
-    publish = Published.query.filter_by(user_id=session["user_id"]).first()
+    else:
 
-    return redirect("/dashboard", publish=publish)
+        user = User.query.get(user_id)
+        published_draft = Published(title=title, draft=draft, user_id=user_id, draft_id=draft_id)
+
+        print published_draft
+
+        db.session.add(published_draft)
+        db.session.commit()
+
+
+    print "finished"
+
+    flash("You have published to your Dashboard")
+    return redirect("/feed")
+
+
+
+@app.route('/feed', methods=['GET']) 
+def user_dashboard():
+    """ Interactive feed. """
+
+    user = User.query.get(session["user_id"])
+    published_drafts = Published.query.filter_by(user_id=user.user_id).order_by(Published.publish_id.desc()).all()
+    
+    return render_template("feed.html", user=user, published_drafts=published_drafts)
 
 
 ##############################################################################
 # Connects to DB
 
 if __name__ == "__main__":
-    # We have to set debug=True here, since it has to be True at the point
-    # that we invoke the DebugToolbarExtension
+    
     app.debug = True
 
     connect_to_db(app)
 
-    # Use the DebugToolbar
     DebugToolbarExtension(app)
 
     app.run()
+
+
+
+
+
+
