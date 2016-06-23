@@ -7,12 +7,26 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import connect_to_db, db, User, Draft, Published
 
+# Import SQLAlchemy exception erro to use in try/except 
 
+from sqlalchemy.orm.exc import NoResultFound
+
+# Import search function from library to query for information in database 
+
+from sqlalchemy_searchable import search 
+
+# creates a flask app 
 app = Flask(__name__)
 
+
+# requirement for flask session and debug toolbar
 app.secret_key = "CBA"
 
+
+# Raise error in Jinja if undefined 
 app.jinja_env.undefined = StrictUndefined
+
+################################################
 
 
 @app.route('/', methods=['GET'])
@@ -27,10 +41,14 @@ def index():
 def login():
     """ Processes login. """
 
+    print "hello"
     email = request.form.get("email")
+    print email
     password = request.form.get("password")
+    print password
 
     user = User.query.filter_by(email=email).first()
+    print user
 
     if not user:
         flash ("User not found. Please register.")
@@ -42,7 +60,6 @@ def login():
 
     session["user_id"] = user.user_id
 
-    flash("Welcome {}".format(user.first_name))
     return redirect('/feed')
 
 
@@ -66,8 +83,13 @@ def registration():
     """ register new user. """
 
     """ Get form variables """
+
+    print "hello"
+
     first_name = request.form.get("first_name")
+    print first_name
     last_name = request.form.get("last_name")
+    print last_name
     # username = request.form ["username"] --> to be added later
     email = request.form.get("email")
     password = request.form.get("password")
@@ -212,7 +234,7 @@ def feed_publish():
 
     print "finished"
 
-    flash("You have published to your Dashboard")
+    # flash("You have published to your Dashboard")
     return redirect("/feed")
 
 

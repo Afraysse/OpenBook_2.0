@@ -7,8 +7,8 @@
         <div class="feed-canopy feed-canopy--withNav">
             <div class="feed-canopy-inner">
                 <div class="feed-canopy-header" style="margin-top: 0px">
-                    <div class="feed-canopy-headerSm">
-                        <img id="feed-img" src="/static/images/congruent_pentagon.png">
+                  <h1>{{ user.first_name }}'s Dashboard</h1>
+                    <div class="feed-canopy-headerSm"><h1>{{ user.first_name }}'s Dashboard</h1><img id="feed-img" src="/static/images/congruent_pentagon.png">
                     </div>
                 </div>
             </div>
@@ -25,19 +25,19 @@
           <hr>
           <ul class="nav">
             <li class="text-center">
-                <h5>Mark Twain</h5>
-                <h6>Short Story</h6>
-                    <img src="//placehold.it/100" class="img-circle"></li>
+                <h5>Maddy J</h5>
+                <h6>"The House on Terry Street"</h6>
+                    <img src="/static/images/maddy.jpg" class="img-circle"></li>
             <hr>
             <li class="text-center">
-                <h5>Theodore Roosevelt</h5>
-                <h6>Autobiography</h6>
-                    <img src="//placehold.it/100" class="img-circle"></li>
+                <h5>David Godfrey</h5>
+                <h6>"My Life Teaching Abroad"</h6>
+                    <img src="/static/images/david.jpg" class="img-circle"></li>
             <hr>
             <li class="text-center">
-                <h5>Bonnie Parker</h5>
-                <h6>Poetry</h6>
-                    <img src="//placehold.it/100" class="img-circle"></li>
+                <h5>Thomas E.</h5>
+                <h6>"One Thousand Poems"</h6>
+                    <img src="/static/images/dad.jpg" class="img-circle"></li>
           </ul>
           <ul class="nav hidden-xs" id="ob-sidebar-footer">
             <li>
@@ -58,7 +58,7 @@
                 {% for pub in published_drafts %}
                 <div class="col-sm-12">
                   <h3>{{ pub.title }}</h3>
-                  <h4><span class="label label-default"> Anne Fraysse</span></h4><h4><small class="text-muted">1 hour ago<a href="#" class="text-muted"> Read More</a></small>
+                  <h4><span class="label label-default">{{ user.first_name }} {{ user.last_name}}</span></h4><h4><small class="text-muted">1 hour ago<a href="#" class="text-muted"> Read More</a></small>
                 </h4>
                 <br> 
               </div> 
@@ -81,7 +81,7 @@
               </div>
               <div class="col-sm-6">
                 <p>
-                <a href="#" class="pull-right">©Copyright 2013</a>
+                <a href="#" class="pull-right">©Openbook 2016</a>
                 </p>
               </div>
             </div>

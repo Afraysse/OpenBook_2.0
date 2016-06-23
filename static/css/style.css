@@ -1,6 +1,6 @@
 
 body {
-    padding-top: 50px;
+    padding-top: 5%;
 }
 
 .container {
@@ -12,7 +12,6 @@ body {
 
 .navbar-default {
     font-family: 'Playfair Display', serif;
-    background-color: black;
 }
 
 .navbar-brand {
@@ -24,24 +23,30 @@ body {
 
 /* HOMEPAGE */
 
-
+body.homepage {
+    background-image: url('/static/images/typewriter.jpg') !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+}
 
 .auth-box {
     width: 500px;
     margin: 0 auto;
-    background-color: transparent;
     text-align: center;
+    color: black;
     vertical-align: middle;
+ 
 }
 
-.align-center {
-    text-align: center;
+#jumbo-box {
+    background-color: #5FC2A2;
+    color: white;
+    padding-top:150px;
+    padding-bottom: 0;
 }
 
-
-.form-size {
-    width: 20%;
-}
 
 /* PROFILE */
 
@@ -92,12 +97,22 @@ body {
 }
 
 #profile-pic {
-    margin: -190px 0 -20px 30px; /* play with these to position the image */
+    margin: -80% 0 -20% 10%; /* play with these to position the image */
     position:absolute;
     z-index:0;
     width: 100%;
-    height: 300px;
+    height: 350px;
 } 
+
+.edit-container {
+    padding-left: 55%;
+}
+
+
+.go-btn {
+    text-align: center;
+}
+
 
 .user-name {
     font-family: 'Merriweather', serif;
@@ -186,10 +201,25 @@ body {
     font-family: 'Playfair Display', serif;
 }
 
+.img-circle {
+    width: 100px;
+    height: 100px;
+}
+
 #feed-img {
     vertical-align: middle;
     width: 100%;
-    height: 150px;
+    height: 200px;
+    background-color: #5DB271 !important;
+}
+
+h1 {
+    font-family: 'Merriweather', serif !important;
+    color: #26333D !important;
+    padding-left: 35%;
+    margin: -100% 0 -100% 100%; /* play with these to position the image */
+    position:absolute;
+    z-index:0;
 }
 
 .side-header {
@@ -204,7 +234,6 @@ body {
     overflow: auto;
         overflow-x: auto;
         overflow-y: auto;
-
 }
 
 .padding {
@@ -226,5 +255,7 @@ body {
     text-align: left;
     padding-left: 15px;
 }
+
+
 
 

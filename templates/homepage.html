@@ -1,31 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
+<body>
+    <h2 style="bold">OpenBook</h2>
 <div class="authentication">
     <div class="jumbotron" id="jumbo-box">
-        <div class="auth-box">
-            <h1 class="login-labels">OpenBook</h1>
-                <form action="/login" method="POST" class="align-center">
-                    <p class="panel-title">Log In</p>
-                    <div id="email">
-                            <input type="text" name="email" placeholder="Email" required>
-                    </div>
-                    <div id="password">
-            <input type="text" name="password" placeholder="Password" required>
-            </div>
-        <div id="login"><input class="btn btn-primary btn-sm" type="submit" value="Submit" role="button"></div>
-                </form>
-                    <div id="register">
-                        <p><a href="/register">Not a member? Sign up Here</a><p>
-                </div>
-                
+        <div class="auth-box" style="font-family: 'Merriweather', serif">
+            <h2 style="font-weight: 500">Login</h2>
+                <form action="/login" method="POST">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-6 col-xs-offset-3">
+                                <input type="email" name="email" placeholder="Email" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-md-6 col-xs-offset-3">
+                                <input type="password" name="password" placeholder="Password" required>
+                            </div>
+                        </div>
+                        <hr>
 
+                        <div class="row">
+                            <input type="submit" class="auth btn btn-default" id="login" value="Log In">
+                        </div>
+                    </div>
+                </form>
+                <BR>
+                <h6><a href="/register">Not a member? Sign up Here</a></h6>
+                <br>
+                <br>
+                <br>
+                <br>
             </div>
         </div>
     </div>
 
-
-
-
 {% endblock %}
 
+</body>

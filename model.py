@@ -4,11 +4,17 @@ from flask_sqlalchemy import SQLAlchemy
 
 import datetime
 
+# SQLAlchemy-searchable is the library used for search engines 
+
+from sqlalchemy_searchable import make_searchable
+from sqlalchemy_utils.types import TSVectorType
 # This is the connection to the PostgreSQL database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
 # object, where we do most of our interactions (like committing, etc.)
 
 db = SQLAlchemy()
+
+make_searchable()
 
 
 ##############################################################################
@@ -25,6 +31,9 @@ class User(db.Model):
     email = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(64), nullable=False)
     age = db.Column(db.Integer, nullable=False)
+
+    # Put name inside TSVectorType definition for it to be fulltext-indexed (searchable)
+    search_vector = db.Column(TSVectorType('first_name', 'last_name'))
 
 
     # draft_count = db.Column(db.Integer, nullable = True)
@@ -106,6 +115,27 @@ class Published(db.Model):
             # 'date': self.date
         }
 
+class Relations(db.Model):
+    "Connect two users to establish a friendship and allow for info viewing"
+
+    __tablename__ = "relationships"
+
+    relationship_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_a_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    user_b_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    status = db.Column(db.String(100), nullable=False)
+
+    # Define relationships between users
+    user_a_id = db.relationship("User", backref=db.backref("user"))
+    user_b_id = db.relationship("User", backref=db.backref("user"))
+
+    def __repr__(self):
+        """Provide helpful representation when printed"""
+
+        return "<Relations relationship_id=%s user_a_id=%s user_b_id=%s status=%s>" % (self.relationship_id,
+                                                                                        self.user_a_id,
+                                                                                        self.user_b_id,
+                                                                                        self.status)
 
 ##############################################################################
 # Helper functions
@@ -115,6 +145,7 @@ def connect_to_db(app):
 
     # Configure to use our PstgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///openbook'
+    app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
 
