@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+
+<div class="container" id="new-draft">
+    <div class="row">
+        <br>
+        <br>
+        <h2>Begin Writing Now...</h2>
+        <form role="form" action="/new_draft.json" method="POST" id="new_draft">
+            <div class="form-group">
+                <label for="title-field"></label>
+                <textarea name="title-field" id="title_field" type="text" class="draft_control" rows="1"></textarea>
+                <label for="draft-field"></label>
+            <textarea name="draft-field" id="draft_field" type="text" class="draft_control" rows="10"></textarea>
+        </div>
+        <input id="save_btn" type="submit" value="Save"> 
+    </div>
+</form>
+
+<!-- <script src="/static/new_draft.js"></script> -->
+</body>
+{% endblock %}

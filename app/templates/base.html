@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+ 
+    <title>OpenBook || {% block title %} put title here {% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+     <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- Font Awesome icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Finger+Paint" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Shade" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bangers|Scope+One" rel="stylesheet">
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!-- TinyMCE script -->
+    <script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+
+    <script> /* for TinyMCE on draft-page */
+    tinymce.init({
+      selector: '#draft_field',
+      theme: 'modern',
+      plugins: [
+      'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen',
+      'insertdatetime media nonbreaking save table contextmenu directionality',
+      'emoticons template paste textcolor colorpicker textpattern imagetools'
+    ],
+      toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+      toolbar2: 'print preview media | forecolor backcolor emoticons',
+      image_advtab: true
+  });
+    </script>
+
+</head>
+
+<style>
+.navbar-fixed-top {
+  background-color: black;
+  opacity: 0.9;
+  font-family: 'Bangers', cursive;
+  height: 60px;
+  padding-top: 4px;
+}
+
+.navbar-brand {
+  font-family: 'Bangers', cursive;
+  color: white;
+  font-size: "20";
+}
+
+#navbar-search {
+  font-family: 'Bangers', cursive;
+}
+
+#option {
+  color: white;
+}
+
+.navbar-collapse {
+  font-family: 'Bangers', cursive;
+  color: white;
+}
+
+</style>
+
+<body>
+
+<nav class="navbar navbar-light navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/feed">OpenBook</a>
+                <form class="navbar-form navbar-left" role="search">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="navbar-search" placeholder="Search">
+                  </div>
+                  <button class="btn btn-default" type="button">
+                      <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                </form>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav pull-right" id="options">
+                    <li>
+                        <a href="#" id="option">Drafts</a>
+                    </li>
+                    <li>
+                        <a href="/profile" id="option">Profile</a>
+                    </li>
+                    <li>
+                        <a href="#" id="option">Logout</a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+    </nav><!-- Page Content -->   
+
+
+
+<!-- Flashed Messages --> 
+
+{% with messages = get_flashed_messages() %}
+{% for message in messages %}
+  <div class="col-xs-12">
+    <div class="alert alert-success">{{ message }}</div>
+  </div>
+
+{% endfor %}
+{% endwith %}
+
+
+{% block content %} 
+
+{% endblock %}
+
+
+
+
+  <!-- Placed at the end of the document so the pages load faster -->
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</body>
+</html> 

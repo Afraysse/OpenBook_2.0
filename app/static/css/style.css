@@ -1,0 +1,253 @@
+/*
+body {
+    padding-top: 5%;
+}
+
+.container {
+    font-family: 'Playfair Display', serif;
+    font-color: black;
+}
+
+/* BASE */
+
+
+
+/* 
+
+body.homepage {
+    background-image: url('/static/images/typewriter.jpg') !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+}
+
+.auth-box {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    color: black;
+    vertical-align: middle;
+ 
+}
+
+#jumbo-box {
+    background-color: #5FC2A2;
+    color: white;
+    padding-top:150px;
+    padding-bottom: 0;
+}
+
+
+/* PROFILE 
+
+#canopy-img {
+    vertical-align: middle;
+    width: 100%;
+    height: 351px;
+}
+
+#navbar-profile {
+    padding-top: 10px;
+}
+
+.navbar-right {
+    width: 55%;
+}
+
+#caption {
+    text-align: center;
+}
+
+.profile-canopy-navbar {
+    padding-top: 5px;
+    min-height: 30px;
+    background-color: #FFFFFF;
+}
+.nav-label {
+    font-family: 'Merriweather', serif;
+    font-size: 14px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+}
+
+.nav-value {
+    font-size: 18px;
+    padding-top: 3px;
+    font-weight: 500;
+}
+.nav-label, .nav-value {
+    display: block;
+    color: gray;
+    display: inline-block;
+}
+
+.profile-nav-item {
+    display: inline-block;
+    text-align: inherit;
+}
+
+#profile-pic {
+    margin: -80% 0 -20% 10%; /* play with these to position the image *
+    position:absolute;
+    z-index:0;
+    width: 100%;
+    height: 350px;
+} 
+
+.edit-container {
+    padding-left: 55%;
+}
+
+
+.go-btn {
+    text-align: center;
+}
+
+
+.user-name {
+    font-family: 'Merriweather', serif;
+    margin: 125px 0 -20px 30px;
+    position: absolute;
+    z-index: 0;
+} 
+
+.user-email {
+    font-family: 'Merriweather', serif;
+    margin: 160px 0 -20px 30px;
+    position: absolute;
+    z-index: 0;
+}
+
+.user-age {
+    font-family: 'Merriweather', serif;
+    margin: 180px 0 -20px 30px;
+    position: absolute;
+    z-index: 0;
+}
+
+
+/* NEW DRAFT *
+
+
+#title_field {
+    width: 80%;
+    text-align: center;
+    padding: 8px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+}
+
+#draft_field {
+    width: 80%;
+    height: 200px;
+    padding: 8px 10px;
+    margin: 8px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+#save_btn {
+    font-family: 'Playfair Display', serif;
+}
+
+#publish_btn {
+    font-family: 'Playfair Display', serif;
+}
+
+/* DRAFT PAGE *
+
+.btn-display {
+    border: solid black 1px;
+    background-color: white;
+    color: black;
+    font-family: serif;
+    padding: 10px 24px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+
+}
+
+#previousDraft {
+    font-style: bold;
+}
+
+#saved-drafts {
+    font-family: 'Merriweather', serif;
+}
+
+/* FEED - PUBLISH CONTAINER *
+
+.wrapper, .row {
+    height: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    font-family: 'Playfair Display', serif;
+}
+
+.img-circle {
+    width: 100px;
+    height: 100px;
+}
+
+#feed-img {
+    vertical-align: middle;
+    width: 100%;
+    height: 200px;
+    background-color: #5DB271 !important;
+}
+
+h1 {
+    font-family: 'Merriweather', serif !important;
+    color: #26333D !important;
+    padding-left: 35%;
+    margin: -100% 0 -100% 100%; /* play with these to position the image *
+    position:absolute;
+    z-index:0;
+}
+
+.side-header {
+    font-family: 'Merriweather', serif;
+    font-size: 22px; 
+}
+
+
+.column {
+    padding: 30px;
+    height: 100%;
+    overflow: auto;
+        overflow-x: auto;
+        overflow-y: auto;
+}
+
+.padding {
+    padding: 10px;
+}
+
+
+.col-sm-3 {
+    width: 30%;
+    background-attachment: fixed;
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.draft-body {
+    text-align: left;
+    padding-left: 15px;
+}
+
+
+
+
+*/

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>growshare || {% block title %} put title here {% endblock %}</title>
+
+    <!-- CSS/Custom Styling -->
+    <link href="/static/css/styles.css" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Bangers|Scope+One" rel="stylesheet">
+
+<style>
+/*!
+ * Start Bootstrap - Agency v3.3.7+1 (http://startbootstrap.com/template-overviews/agency)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+header {
+  background-image: url('static/images/comic_front.jpg');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  text-align: center;
+  color: white;
+}
+header .intro-text {
+  padding-top: 10px;
+  padding-bottom: 50px;
+}
+header .intro-text .intro-lead-in {
+  font-family: 'Bangers', cursive;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 22px;
+  margin-bottom: 25px;
+}
+header .intro-text .intro-heading {
+  font-family: 'Bangers', cursive;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 50px;
+  margin-bottom: 25px;
+}
+@media (min-width: 768px) {
+  header .intro-text {
+    padding-top: 200px; /* for picture in container */
+    padding-bottom: 200px;
+  }
+  header .intro-text .intro-lead-in {
+    font-family: 'Bangers', cursive;
+    font-style: italic;
+    font-size: 30px;
+    line-height: 40px;
+    margin-bottom: 25px;
+  }
+  header .intro-text .intro-heading {
+    font-family: 'Bangers', cursive;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 150px;
+    line-height: 75px;
+    margin-bottom: 110px;
+  }
+}
+
+.auth-box {
+  font-family: 'Bangers', cursive;
+}
+
+</style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+          <div class="intro-text">
+            <h4><div class="intro-lead-in">Come tell your story!</div></h4>
+            <div class="intro-heading">OpenBook</div>
+          <div class="authentication">
+            <form action='/login' method='post'>
+                    <center><input type="email" name="email" class="form-control" style="width: 400px" placeholder="email"></center>
+                    <center><input type="password" name="password" class="form-control" style="width: 400px" placeholder="password"></center>
+                    <br>
+                    <center><button style="width: 200px" class="btn btn-outline-secondary" type="submit">Login</button></center>
+                </form>
+              </div>
+              <br>
+              <!-- REGISTER MODAL TRIGGER -->
+              <button type="button" style="width: 200px" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal">Register</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </header>
+
+  <!-- REGISTER MODAL -->
+
+<div class="authentication">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Register Here!</h4>
+          </div>
+          <div class="modal-body">
+
+            <form action="/register" method='POST'>
+                <div class="form-group row">
+                  <label for="text-input" class="col-xs-2 col-form-label">Username</label>
+                <div class="col-xs-10">
+                  <input class="form-control" type="text" name="username" placeholder="alumineumfalcon202" id="username">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="text-input" class="col-xs-2 col-form-label">First Name</label>
+                <div class="col-xs-10">
+                  <input class="form-control" type="text" name="first_name" placeholder="Han" id="first_name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="text-input" class="col-xs-2 col-form-label">Last Name</label>
+                <div class="col-xs-10">
+                  <input class="form-control" type="text" name="last_name" placeholder="Solo" id="last_name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email-input" class="col-xs-2 col-form-label">Email</label>
+                <div class="col-xs-10">
+                  <input class="form-control" type="email" name="email" placeholder="rebel4lyfe@mfalcon.com" id="email">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="text-input" class="col-xs-2 col-form-label">Location</label>
+                <div class="col-xs-10">
+                  <input class="form-control" type="text" name="location" placeholder="Corellia" id="location">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="text-input" class="col-xs-2 col-form-label">Age</label>
+                <div class="col-xs-10">
+                  <input class="form-control" type="text" name="age" placeholder="28" id="age">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="example-password-input" class="col-xs-2 col-form-label">Password</label>
+                <div class="col-xs-10">
+                  <input class="form-control" type="password" name="password" placeholder="wookiecookie212" id="password">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+      </div>
+    </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copyright">OpenBook &copy; 2016.</p>
+    </div>
+  </footer>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
